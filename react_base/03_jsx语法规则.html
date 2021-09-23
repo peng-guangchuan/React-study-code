@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>03_jsx语法规则</title>
+    <style type="text/css">
+        .title{
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <div id="test"></div>
+
+    <!-- 必须先引入react.development.js核心库 -->
+    <script src="../js/react.development.js"></script>
+    <!-- 引入react操作dom的支持 -->
+    <script src="../js/react-dom.development.js"></script>
+    <!-- babel讲jsx转为js -->
+    <script src="../js/babel.min.js"></script>
+    <!-- 注意type类型为babel -->
+    <script type="text/babel">
+        const myId = 'aTgUiGu'
+        const myData = 'Hello,React'
+
+        // JS表达式用{}
+        // 引用样式类名用className，不用class
+        // 内联样式用 style={{xxx:'xxx',xxx:'xxx'}} 外层括号代表里面为JS表达式，内层则为对象（小驼峰）
+        // 只能有一个根标签
+        // 标签必须闭合
+        // 虚拟节点标签小写会被转为html，大写开头则为组件
+
+        const VDOM = (
+            <h2 className='title' id={myId.toLowerCase()}>
+                <span style={{color:'red',fontSize:'40px'}}>{myData}</span>
+                <input type="text" />
+            </h2>
+        )
+        ReactDOM.render(VDOM,document.getElementById('test'))
+    </script>
+</body>
+</html>
