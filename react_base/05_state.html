@@ -17,22 +17,30 @@
     <script type="text/babel">
         // 组件的三大属性：state、props、refs 都需要使用类式组件进行创建
         class Weather extends React.Component {
-            constructor(props){
+            constructor(props){ // new一次组件，调用一次
                 super(props)
-                this.state = {isHot:true}
+                this.state = {isHot:true,wind:'微风'}
+                // 构造器中的this就是Weather实例对象，此时30行可以调用changeWeather
+                // 左边为需要调用的名字 ，右边为内部方法需要绑定到对象上的方法
+                // 如果32行changeWeather变成aaa 30行变成 this.demo 下面这句话就要变成 this.demo = this.aaa.bind(this)
+                this.changeWeather = this.changeWeather.bind(this)
             }
-            render(){
-                console.log(this);
+            render(){ // render初始化一次，组件每更新一次就会执行一次render
                 // demo如果加括号编程demo()则是会把demo()执行后返回值赋值onClick
-                return <h1 id="title" onClick={this.changeWeather}>今天天气很{this.state.isHot ? '炎热' : '凉爽'}</h1>
+                return <h1 id="title" onClick={this.changeWeather}>今天天气很{this.state.isHot ? '炎热' : '凉爽'}，{this.state.wind}</h1>
             }
             changeWeather(){
-                // 27行代码调用时
+                // 30行代码调用时
                 // 类中定义的方法，会在局部开启use strict严格模式
                 // console.log(this) 为 undefined
                 // this.state.isHot = true 拿不到
 
-                // 38,39行调用时，console.log(this) 为 Weather实例（谁调用指向谁）
+                // 46,47行调用时，console.log(this) 为 Weather实例（谁调用指向谁）
+
+                // react的状态不可以像vue一样直接更改（不会响应），如直接 this.state.isHot = !this.state.isHot
+                // 状态必须通过setState更改才会响应更新，setState会更改变化的值，不会覆盖
+                const isHot = this.state.isHot
+                this.setState({isHot:!isHot})
             }
         }
         const w = new Weather()
@@ -50,7 +58,7 @@
         // }
 
         function changeWeather(){
-            // 27行代码调用时
+            // 30行代码调用时
             // use strict严格模式下this不指向window
             // console.log(this) 为 undefined
             // this.state.isHot 无法获取
