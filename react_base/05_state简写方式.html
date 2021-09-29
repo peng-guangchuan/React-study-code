@@ -33,6 +33,13 @@
             }
         }
         ReactDOM.render(<Weather />, document.getElementById('test'))
+
+        // 总结：
+        // state包含 key-value对象
+        // 可通过更新state来更新对应的页面显示
+        // render中的this为组件实例对象
+        // 组件自定义方法中this为undefined：通过bind()强制绑定或箭头函数解决
+        // 状态数据通过setState()修改或更新
     </script>
 </body>
 
