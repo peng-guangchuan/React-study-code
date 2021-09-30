@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>06-3_props的简写方式</title>
+</head>
+
+<body>
+    <div id="test1"></div>
+    <div id="test2"></div>
+    <div id="test3"></div>
+    <div id="test4"></div>
+
+    <!-- 必须先引入react.development.js核心库 -->
+    <script src="../js/react.development.js"></script>
+    <!-- 引入react操作dom的支持 -->
+    <script src="../js/react-dom.development.js"></script>
+    <!-- babel讲jsx转为js -->
+    <script src="../js/babel.min.js"></script>
+    <!-- 引入类型限制包 prop-types.js -->
+    <script src="../js/prop-types.js"></script>
+
+    <!-- 注意type类型为babel -->
+    <script type="text/babel">
+        class Person extends React.Component {
+            constructor () {
+                // 构造器可写可不写，写了必须用super
+                // 可以参数接收props，然后super(props)传给父组件
+                // 通常只用来初始化 state 和 this绑定（箭头函数解决）
+                // 总结：构造器一般只用来传props给父组件和初始化state
+            }
+            static propTypes = {
+                // name:React.PropTypes.string // 会报错，React15.5版本后在React对象下删除
+                // 20行引入React的数据类型限制包
+                name: PropTypes.string.isRequired, // 必传
+                sex: PropTypes.string,
+                age: PropTypes.number,
+                speak: PropTypes.func // 如果用function会跟关键字冲出，上述类型都为小写开头，所以不冲突
+            }
+            static defaultProps = {
+                sex: '不男不女',
+                age: 18
+            }
+            render() {
+                const { name, age, sex } = this.props
+                return (
+                    <ul>
+                        <li>姓名：{name}</li>
+                        <li>性别：{sex}</li>
+                        <li>年龄：{age}</li>
+                    </ul>
+                )
+
+            }
+        }
+        // 传入的键值对数据，会自动保存在组件的props属性下
+        ReactDOM.render(<Person name='jerry' />, document.getElementById('test1'))
+    </script>
+</body>
+
+</html>

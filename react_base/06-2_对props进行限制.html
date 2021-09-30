@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>06_props的基本使用</title>
+    <title>06-2_对props进行限制</title>
 </head>
 <body>
     <div id="test1"></div>
     <div id="test2"></div>
     <div id="test3"></div>
+    <div id="test4"></div>
 
     <!-- 必须先引入react.development.js核心库 -->
     <script src="../js/react.development.js"></script>
@@ -15,12 +16,17 @@
     <script src="../js/react-dom.development.js"></script>
     <!-- babel讲jsx转为js -->
     <script src="../js/babel.min.js"></script>
+    <!-- 引入类型限制包 prop-types.js -->
+    <script src="../js/prop-types.js"></script>
+
     <!-- 注意type类型为babel -->
     <script type="text/babel">
         class Person extends React.Component{
+            
             render(){
-                console.log(this)
                 const {name,age,sex} = this.props
+                // props为只读，下面这行代码会报错
+                // this.props.name = 'me'
                 return (
                     <ul>
                         <li>姓名：{name}</li>
@@ -29,30 +35,32 @@
                     </ul>
                 )
 
-                //       <li>姓名：{this.props.name}</li>
-                //       <li>性别：{this.props.sex}</li>
-                //       <li>年龄：{this.props.age}</li>
-
             }
         }
+        // 添加数据类型规则
+        Person.propTypes = {
+            // name:React.PropTypes.string // 会报错，React16版本后在React对象下删除
+            // 20行引入React的数据类型限制包
+            name:PropTypes.string.isRequired, // 必传
+            sex:PropTypes.string,
+            age:PropTypes.number,
+            speak:PropTypes.func // 如果用function会跟关键字冲出，上述类型都为小写开头，所以不冲突
+        }
+        // 设置默认值
+        Person.defaultProps = {
+            sex:'不男不女',
+            age:18
+        }
         // 传入的键值对数据，会自动保存在组件的props属性下
-        ReactDOM.render(<Person name="jerry" age="19" sex="男" />, document.getElementById('test1'))
-        const data = {name:'amy',age:'19',sex:'女'}
-        //  ...arr 展开数组; ...args 函数传参不确定时; 
-        // 原生js中{...obj} 可进行对象的拷贝，第一层是深拷贝，第二层对象浅拷贝，所以整体来说是浅拷贝
-        // React中的 {} 为分隔，只执行里面的JS表达式， ...data 配合 babel，实现了下一行代码的功能
+        ReactDOM.render(<Person name='jerry' age={19} speak={speak} />, document.getElementById('test1'))
+        const data = {name:'amy',age:19,sex:'女'}
         ReactDOM.render(<Person {...data} />, document.getElementById('test2'))
-        let person  = {name:'tom',age:18}
-        let person2 = {...person}
-        // console.log(...person); // 报错，无法展开对象
-        person.name = 'jerry'
-        console.log(person2);
-        console.log(person);
-        // 合并，达到修改和添加的效果
-        let person3 = {...person,name:'jack',address:"地球"}
-        console.log(person3);
         // 对key-value中的value使用 {} 进行js语言操作
         ReactDOM.render(<Person name="jack" age={19+1} sex="男" />, document.getElementById('test3'))
+        ReactDOM.render(<Person name='black' age={19+1} sex="男" />, document.getElementById('test4'))
+        function speak (){
+            console.log("speak");
+        }
     </script>
 </body>
 </html>
