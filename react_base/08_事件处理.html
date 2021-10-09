@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>08_事件处理</title>
+</head>
+
+<body>
+    <div id="test"></div>
+
+    <!-- 必须先引入react.development.js核心库 -->
+    <script src="../js/react.development.js"></script>
+    <!-- 引入react操作dom的支持 -->
+    <script src="../js/react-dom.development.js"></script>
+    <!-- babel讲jsx转为js -->
+    <script src="../js/babel.min.js"></script>
+    <!-- 注意type类型为babel -->
+    <script type="text/babel">
+        class Demo extends React.Component {
+            /* 
+            React中事件都是自定义合成的，onXxx名，未调用原生的DOM ——兼容性
+            React中事件是通过事件委托方式处理的（委托到最外层） ——高效性
+            可通过event.target得到发生事件的DOM元素对象 ——不要过度使用ref
+            */
+
+            // React.createRef调用后可以返回一个容器，该容器可以存储ref所标识的节点，只能有唯一一个节点使用
+            myRef = React.createRef()
+            myRef2 = React.createRef()
+            showData = () => {
+                alert(this.myRef.current.value)
+            }
+            showData2 = (evevt) => {
+                alert(event.target.value)
+            }
+
+            render() {
+                return (
+                    <div>
+                        <input ref={this.myRef} type="text" placeholder="点击按钮提示数据" /> &nbsp;
+                        <button onClick={this.showData}>点击提示左侧的数据</button> &nbsp;
+                        <input onBlur={this.showData2} type="text" />
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<Demo />, document.getElementById('test'))
+    </script>
+</body>
+
+</html>

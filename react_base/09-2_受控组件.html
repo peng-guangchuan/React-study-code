@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>09-2_受控组件</title>
+</head>
+<body>
+    <div id="test"></div>
+
+    <!-- 必须先引入react.development.js核心库 -->
+    <script src="../js/react.development.js"></script>
+    <!-- 引入react操作dom的支持 -->
+    <script src="../js/react-dom.development.js"></script>
+    <!-- babel讲jsx转为js -->
+    <script src="../js/babel.min.js"></script>
+    <!-- 注意type类型为babel -->
+    <script type="text/babel">
+        class Login extends React.Component {
+            // 受控组件：无ref，随着数据的改变去维护数据。类似于Vue中的数据双向绑定
+            state = {
+                username:'',
+                password:''
+            }
+
+            // 保存用户名到状态中
+            saveUsername = (event) => {
+                this.setState({username:event.target.value})
+            }
+            // 保存密码到状态中
+            savePassword = (event) => {
+                this.setState({password:event.target.value})
+            }
+
+            handleSubmit = () => {
+                event.preventDefault() // 阻止表单提取
+                const {username, password} = this.state
+                alert(`用户名:${username},你输入的密码是:${password}`)
+            }
+            render() {
+                return (
+                    <form onSubmit={this.handleSubmit}>
+                        用户名：<input onChange={this.saveUsername} type="text" name="username" />
+                        密码：<input onChange={this.savePassword} type="password" name="password" />
+                        <button>登陆</button>
+                    </form>
+                )
+            }
+        }
+
+        ReactDOM.render(<Login/>,document.getElementById('test'))
+    </script>
+</body>
+</html>
