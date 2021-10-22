@@ -63,6 +63,13 @@
                 this.forceUpdate()
             }
 
+            // static getDerivedStateFromProps(props, state){
+            //     console.log('getDerivedStateFromProps', props, state);
+            //     return null
+            //     return { count:100} // 状态被锁定
+            //     return props
+            // }
+
             //组件将要挂载的钩子
             UNSAFE_componentWillMount(){
                 console.log('Count---componentWillMount');
