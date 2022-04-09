@@ -1,3 +1,3 @@
 # React-study-code
-- 一个用于记录自己React学习进度的仓库，学习平台为b站：https://www.bilibili.com/video/BV1wy4y1D7JT
-- 讲解了16.8以前的React和17以后的React
+- 一个用于记录自己React学习进度的仓库
+- 主要内容为16.8以前的React和17以后的React
